@@ -1,3 +1,13 @@
+export const OrganizationList = [
+  {
+    label: '南京师范大学',
+    value: 'nnu',
+  },
+  {
+    label: '南京信息工程大学',
+    value: 'nuist',
+  },
+]
 const sessionList=[2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022].reverse()
 export const SessionItems=sessionList.map(item => ({ label: String(item), value: item }))
 

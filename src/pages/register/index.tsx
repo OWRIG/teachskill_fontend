@@ -1,6 +1,6 @@
-import React from 'react'
+import { history } from 'umi';
 import { createForm } from '@formily/core'
-import { Field, VoidField } from '@formily/react'
+import { Field } from '@formily/react'
 import {
   Form,
   FormItem,
@@ -8,10 +8,13 @@ import {
   Select,
   Password,
   Submit,
+  Radio,
   FormButtonGroup,
 } from '@formily/antd'
-import { Card, Button } from 'antd'
-import { SessionItems, SubjectList } from '@/constant/base'
+import { Card } from 'antd'
+import { SessionItems, SubjectList, OrganizationList } from '@/constant/base'
+import { register } from '@/service/login'
+import { RegisterParams } from '../../constant/login';
 
 import s from './index.less'
 
@@ -21,31 +24,28 @@ export default function Register() {
     validateFirst: true,
   })
 
+  const onRegister=(params: RegisterParams) => {
+    const p={ ...params, confirm_password: void 0 }
+    register(p).then(res => {
+      history.push('/login')
+    })
+  }
   return (
     <div className={s.container}>
       <div className={s.form}>
-        <Card title="新用户注册" style={{ width: 620 }}>
+        <Card title="新用户注册（请仔细填写）" style={{ width: 620 }}>
           <Form
             form={form}
             labelCol={5}
             wrapperCol={16}
-            onAutoSubmit={console.log}
+            onAutoSubmit={onRegister}
           >
             <Field
               name="organization"
               title="组织"
               decorator={[FormItem]}
               component={[Select]}
-              dataSource={[
-                {
-                  label: '南京师范大学',
-                  value: 1,
-                },
-                {
-                  label: '南京邮电大学',
-                  value: 2,
-                },
-              ]}
+              dataSource={OrganizationList}
               required
             />
             <Field
@@ -77,6 +77,28 @@ export default function Register() {
               required
               decorator={[FormItem]}
               component={[Input]}
+              description="请填写真实姓名，以便查询和成绩统计"
+            />
+            <Field
+              name="gender"
+              title="性别"
+              required
+              decorator={[FormItem]}
+              component={[Radio.Group]}
+              dataSource={[
+                {
+                  label: '男',
+                  value: 1,
+                },
+                {
+                  label: '女',
+                  value: 2,
+                },
+                {
+                  label: '其他',
+                  value: 3,
+                },
+              ]}
             />
             <Field
               name="email"

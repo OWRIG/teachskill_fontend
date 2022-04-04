@@ -10,4 +10,10 @@ export default defineConfig({
     { path: '/register', component: '@/pages/register/index' },
   ],
   fastRefresh: {},
+  proxy: {
+    '/api': {
+      target: 'http://localhost:7001',
+      changeOrigin: true
+    }
+  }
 });
